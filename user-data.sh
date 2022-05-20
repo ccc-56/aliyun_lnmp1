@@ -9,7 +9,7 @@ server {
 
 	root /var/www/html;
 
-	index index.html index.htm index.nginx-debian.html;
+	index index.php index.html index.htm index.nginx-debian.html;
 
 	server_name _;
 
@@ -19,7 +19,6 @@ server {
         # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
         location ~ \.php$ {
           try_files $uri =404;
-          fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
           fastcgi_pass unix:/run/php/php7.4-fpm.sock;
           fastcgi_index index.php;
           fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -29,19 +28,19 @@ server {
 EOF
 
 systemctl enable php7.4-fpm && service php7.4-fpm restart
-systemctl enable nginx && service nginx.service restart
+systemctl enable nginx && service nginx restart
 
 cd /var/www/html
-cat <<'EOF1' > a1.php
+cat <<'EOF' > a1.php
 <?php
   phpinfo( );
 ?>
-EOF1
+EOF
 
-cat <<'EOF1' > a1.php
+cat <<'EOT' > a2.php
 <?php
   echo 1+3;
 ?>
-EOF1
+EOT
 
 
